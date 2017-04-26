@@ -36,7 +36,7 @@ public class BowlingTest {
     }
 
     @Test
-    public void spareDoublesFirstRoll() {
+    public void spareDoublesNextRollWhenInAValidFrame() {
         subject.roll(4);
         subject.roll(6);
         subject.roll(5);
@@ -46,7 +46,7 @@ public class BowlingTest {
     }
 
     @Test
-    public void spareDoublesFirstRollOnlyWhenASpareHappensInAValidFrame() {
+    public void spareDoesNotDoubleNextRollWhenInAnInvalidFrame() {
         subject.roll(4);
         subject.roll(6);
         subject.roll(4);

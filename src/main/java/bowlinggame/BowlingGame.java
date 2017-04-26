@@ -1,37 +1,26 @@
 package bowlinggame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BowlingGame {
 
-    private int totalScore = 0;
-    private int previousRollPinCount = 0;
-    private boolean sparePending = false;
-    private int currentFrame = 1;
-    private int currentRollWithinFrame = 1;
+    private List<Integer> rolls = new ArrayList<>();
 
     public void roll(int pins)  {
-
-        if (currentRollWithinFrame > 2) {
-            currentFrame++;
-            currentRollWithinFrame = 1;
-        }
-
-        totalScore += pins;
-        scoreSpare(pins);
-        //if (sparePending) { scoreSpare(pins);}
-
-        sparePending = ((previousRollPinCount + pins) == 10 && currentRollWithinFrame != 1);
-
-        previousRollPinCount = pins;
-        currentRollWithinFrame++;
-    }
-
-    private void scoreSpare(int pins) {
-        if(sparePending) {
-            totalScore += pins;
-        }
+        rolls.add(pins);
     }
 
     public int score() {
-        return totalScore;
+        int total = 0;
+
+        for (int x = 0 ; x < rolls.size() ; x++) {
+            total += rolls.get(x);
+            if (x % 2 == 0 && x > 1 && rolls.get(x-1) + rolls.get(x-2) == 10) {
+                total += rolls.get(x);
+            }
+        }
+
+        return total;
     }
 }
