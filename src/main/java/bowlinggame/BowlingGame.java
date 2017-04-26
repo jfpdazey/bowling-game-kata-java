@@ -32,6 +32,7 @@ public class BowlingGame {
 }
 
 class Frame {
+    // TODO: 4/26/17 Refactor this to a two-element list... 
     private boolean hasFirstRoll = false;
     private boolean hasSecondRoll = false;
     private int firstRoll = 0;
