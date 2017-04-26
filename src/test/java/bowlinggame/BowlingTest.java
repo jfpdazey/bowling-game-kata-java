@@ -37,8 +37,7 @@ public class BowlingTest {
 
     @Test
     public void spareDoublesNextRollWhenInAValidFrame() {
-        subject.roll(4);
-        subject.roll(6);
+        rollASpare();
         subject.roll(5);
         subject.roll(1);
 
@@ -53,5 +52,10 @@ public class BowlingTest {
         subject.roll(1);
 
         assertEquals(19, subject.score());
+    }
+
+    private void rollASpare() {
+        subject.roll(4);
+        subject.roll(6);
     }
 }
