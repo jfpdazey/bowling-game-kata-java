@@ -5,29 +5,43 @@ import java.util.List;
 
 public class BowlingGame {
 
-    private List<Frame> frames = new ArrayList<> ();
+    private List<Frame> frames = new ArrayList<>();
 
-    public BowlingGame () {
-        frames.add (new Frame ());
+    public BowlingGame() {
+        frames.add(new Frame());
     }
 
-    public void roll(int pins)  {
-        Frame currentFrame = frames.get (frames.size () - 1);
-        if (currentFrame.isFull ()) {
-            currentFrame = new Frame ();
-            frames.add (currentFrame);
+    public void roll(int pins) {
+        Frame currentFrame = frames.get(frames.size() - 1);
+        if (currentFrame.isFull()) {
+            currentFrame = new Frame();
+            frames.add(currentFrame);
         }
-        currentFrame.addRoll (pins);
+        currentFrame.addRoll(pins);
     }
 
     public int score() {
         int total = 0;
 
-        for (int x = 0; x < frames.size (); x++) {
-            total += frames.get (x).score (x > 0 && frames.get (x - 1).isSpare ());
+        List<Integer> rolls = new ArrayList<>();
+        frames.stream().forEach(it -> rolls.addAll(it.rolls));
+        for (int x = 0; x < frames.size(); x++) {
+            total += frames.get(x).score(x > 0 && frames.get(x - 1).isSpare());
         }
 
         return total;
+    }
+}
+
+class Roll {
+    int pinCount = 0;
+    boolean isStrike = false;
+    boolean isSpare = false;
+
+    public Roll(int pinCount, boolean isSpare) {
+        this.pinCount = pinCount;
+        this.isSpare = isSpare;
+
     }
 }
 
@@ -38,26 +52,31 @@ class Frame {
     private int firstRoll = 0;
     private int secondRoll = 0;
 
-    public void addRoll (int pins) {
+    public List<Integer> rolls = new ArrayList<>();
+    public void addRoll(int pins) {
+        rolls.add(pins);
         if (!hasFirstRoll) {
             firstRoll = pins;
             hasFirstRoll = true;
-        }
-        else {
+        } else {
             secondRoll = pins;
             hasSecondRoll = true;
         }
     }
 
-    public boolean isFull () {
-        return hasSecondRoll;
+    public boolean isFull() {
+        return isStrike() || hasSecondRoll;
     }
 
-    public boolean isSpare () {
+    public boolean isStrike() {
+        return firstRoll == 10;
+    }
+
+    public boolean isSpare() {
         return firstRoll + secondRoll == 10;
     }
 
-    public int score (boolean precededBySpare) {
+    public int score(boolean precededBySpare) {
         return firstRoll + secondRoll + (precededBySpare ? firstRoll : 0);
     }
 }

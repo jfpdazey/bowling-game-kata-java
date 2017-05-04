@@ -54,6 +54,15 @@ public class BowlingTest {
         assertEquals(19, subject.score());
     }
 
+    @Test
+    public void strikeDoublesNextTwoRollsWhenInAValidFrame() {
+        subject.roll(10);
+        subject.roll(2);
+        subject.roll(3);
+
+        assertEquals(20, subject.score());
+    }
+
     private void rollASpare() {
         subject.roll(4);
         subject.roll(6);
